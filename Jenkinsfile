@@ -11,7 +11,7 @@ pipeline {
                     url: 'https://github.com/shimrin23/DeveopsPro.git', 
                     credentialsId: 'github-creds'
             }
-        },
+        }
         stage('Terraform Init') {
             steps {
                 dir('Terraform-EC2') {
