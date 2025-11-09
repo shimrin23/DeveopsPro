@@ -1,17 +1,18 @@
 pipeline {
     agent any
+
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-creds')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
+        AWS_ACCESS_KEY_ID = credentials("aws-access-key-id")
+        AWS_SECRET_ACCESS_KEY = credentials("aws-secret-access-key")
     }
+
     stages {
-        stage('Checkout Code') {
+        stage('Checkout Terraform') {
             steps {
-                git branch: 'main', 
-                    url: 'https://github.com/shimrin23/DeveopsPro.git', 
-                    credentialsId: 'github-creds'
+                git url: 'https://github.com/shimrin23/DeveopsPro.git', branch: 'main', credentialsId: 'github-creds'
             }
         }
+
         stage('Terraform Init') {
             steps {
                 dir('Terraform-EC2') {
@@ -19,6 +20,7 @@ pipeline {
                 }
             }
         }
+
         stage('Terraform Apply') {
             steps {
                 dir('Terraform-EC2') {

@@ -1,30 +1,17 @@
-pipeline {
-    agent any
-    environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-creds')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
-    }
-    stages {
-        stage('Checkout Code') {
-            steps {
-                git branch: 'main', 
-                    url: 'https://github.com/shimrin23/DeveopsPro.git', 
-                    credentialsId: 'github-creds'
-            }
-        }
-        stage('Terraform Init') {
-            steps {
-                dir('Terraform-EC2') {
-                    sh 'terraform init'
-                }
-            }
-        }
-        stage('Terraform Apply') {
-            steps {
-                dir('Terraform-EC2') {
-                    sh 'terraform apply -auto-approve'
-                }
-            }
-        }
-    }
+provider "aws" {
+  region = "ap-south-1"   
+}
+
+resource "aws_instance" "my_ec2" {
+  ami           = "ami-0dee22c13ea7a9a67"  
+  instance_type = "t2.micro"
+  key_name      = "id_rsa"   
+
+  tags = {
+    Name = "MyEC2Instance"
+  }
+}
+
+output "public_ip" {
+  value = aws_instance.my_ec2.public_ip
 }
