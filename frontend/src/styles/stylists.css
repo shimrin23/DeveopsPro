@@ -1,0 +1,18 @@
+@import url(app.css);
+
+.stylists {
+  margin-bottom: 5rem;
+  min-height: calc(100vh - 300px); /* ✅ Add minimum height to push footer down */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* ✅ Start content from top */
+}
+
+.stylists-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 3rem;
+  width: 100%;
+  flex: 1; /* ✅ Take remaining space */
+}

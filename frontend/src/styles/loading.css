@@ -1,0 +1,14 @@
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 90vh;
+}
+
+.loader {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  /* All spinning animation removed */
+}
