@@ -8,10 +8,10 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main', 
-                    url: 'https://github.com/shimrin23/DeveopsProj.git', 
+                    url: 'https://github.com/shimrin23/DeveopsPro.git', 
                     credentialsId: 'github-creds'
             }
-        }
+        },
         stage('Terraform Init') {
             steps {
                 dir('Terraform-EC2') {
