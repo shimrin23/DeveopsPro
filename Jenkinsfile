@@ -2,31 +2,36 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-creds')
+        AWS_ACCESS_KEY_ID     = credentials('aws-creds')  
         AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
     }
 
     stages {
-        stage('Checkout Terraform') {
+        stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/shimrin23/DeveopsPro.git', branch: 'main', credentialsId: 'github-creds'
+                git branch: 'main', url: 'https://github.com/shimrin23/DeveopsProj.git'
             }
         }
 
         stage('Terraform Init') {
             steps {
-                dir('Terraform-EC2') {
-                    sh 'terraform init'
-                }
+                sh 'terraform init'
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                dir('Terraform-EC2') {
-                    sh 'terraform apply -auto-approve'
-                }
+                sh 'terraform apply -auto-approve'
             }
+        }
+    }
+
+    post {
+        success {
+            echo " Terraform applied successfully!"
+        }
+        failure {
+            echo "Terraform failed. Check logs."
         }
     }
 }
