@@ -13,8 +13,7 @@ services:
       - mongo-data:/data/db
 
   backend:
-    # Pulls the image built by Jenkins
-    image: shimrin_dev/salon-backend:latest
+    image: shimrin223/salon-backend:latest
     container_name: salon-backend
     restart: always
     env_file:
@@ -25,8 +24,8 @@ services:
       - mongo
 
   frontend:
-    # Pulls the image built by Jenkins
-    image: shimrin_dev/salon-frontend:latest
+
+    image: shimrin223/salon-frontend:latest
     container_name: salon-frontend
     restart: always
     env_file:
