@@ -1,29 +1,23 @@
-# Use Node.js LTS
-FROM node:20-alpine
-
-# Set working directory
+# Stage 1: Build the React Application
+FROM node:20-alpine AS builder
 WORKDIR /app
-
-# Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Install dependencies
+# Install dependencies (including dev dependencies needed for build)
 RUN npm install
-
-# Copy production env file first
-COPY .env.production .env
-
-# Copy all project files
 COPY . .
-
-# Build the React app with production env
+# Create the production build
 RUN npm run build
 
-# Install serve to serve static files
+# Stage 2: Serve the Application (The Production Image)
+FROM node:20-alpine
+WORKDIR /app
+
+# Install only the lightweight web server
 RUN npm install -g serve
 
-# Expose port
-EXPOSE 3000
+# COPY ONLY the build folder from the 'builder' stage
+# This discards node_modules and source code, keeping the image tiny
+COPY --from=builder /app/build ./build
 
-# Start the app using serve
+EXPOSE 3000
 CMD ["serve", "-s", "build", "-l", "3000"]
