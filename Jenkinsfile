@@ -2,36 +2,71 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('aws-creds')  
-        AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
+        // REPLACE with your actual Docker Hub username
+        DOCKER_REGISTRY = 'shimrin223' 
+        
+        // Image Names
+        FRONTEND_IMAGE = 'salon-frontend'
+        BACKEND_IMAGE = 'salon-backend'
+        
+        // Credentials ID from Jenkins
+        REGISTRY_CRED_ID = 'docker-hub-credentials'
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/shimrin23/DeveopsProj.git'
+                checkout scm
             }
         }
 
-        stage('Terraform Init') {
+        stage('Build Docker Images') {
             steps {
-                sh 'terraform init'
+                script {
+                    echo '--- Building Backend ---'
+                    // Build Backend using the Dockerfile in ./backend
+                    docker.build("${DOCKER_REGISTRY}/${BACKEND_IMAGE}:${BUILD_NUMBER}", "./backend")
+                    
+                    echo '--- Building Frontend ---'
+                    // Build Frontend using the Dockerfile in ./frontend
+                    docker.build("${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER}", "./frontend")
+                }
             }
         }
 
-        stage('Terraform Apply') {
+        stage('Push to Registry') {
             steps {
-                sh 'terraform apply -auto-approve'
+                script {
+                    docker.withRegistry('', "${REGISTRY_CRED_ID}") {
+                        echo '--- Pushing Backend ---'
+                        // Push Versioned Tag
+                        sh "docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:${BUILD_NUMBER}"
+                        // Tag and Push 'latest'
+                        sh "docker tag ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:latest"
+                        sh "docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:latest"
+
+                        echo '--- Pushing Frontend ---'
+                        // Push Versioned Tag
+                        sh "docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER}"
+                        // Tag and Push 'latest'
+                        sh "docker tag ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:latest"
+                        sh "docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:latest"
+                    }
+                }
             }
         }
     }
 
     post {
+        always {
+            // Clean up images to save space on the Jenkins server
+            sh "docker system prune -af"
+        }
         success {
-            echo " Terraform applied successfully!"
+            echo 'Pipeline completed successfully.'
         }
         failure {
-            echo "Terraform failed. Check logs."
+            echo 'Pipeline failed.'
         }
     }
 }

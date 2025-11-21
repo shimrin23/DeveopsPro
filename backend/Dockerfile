@@ -1,20 +1,17 @@
-# Use Node.js LTS
-FROM node:20-alpine
+# backend/Dockerfile
+FROM node:18-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package files and install dependencies
 COPY package*.json ./
+RUN npm install --production
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the backend code
+# Copy all source code (server.js, .env, etc.)
 COPY . .
 
-# Expose the port
+# Expose the port defined in your server.js and docker-compose
 EXPOSE 5001
 
 # Start the server
-CMD ["node", "server.js"]
+CMD ["npm", "start"]
