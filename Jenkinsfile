@@ -41,22 +41,18 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', "${REGISTRY_CRED_ID}") {
-                        parallel {
-                            stage('Push Backend') {
-                                steps {
-                                    sh "docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:${BUILD_NUMBER}"
-                                    sh "docker tag ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:latest"
-                                    sh "docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:latest"
-                                }
+                        parallel(
+                            'Push Backend': {
+                                sh "docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:${BUILD_NUMBER}"
+                                sh "docker tag ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:latest"
+                                sh "docker push ${DOCKER_REGISTRY}/${BACKEND_IMAGE}:latest"
+                            },
+                            'Push Frontend': {
+                                sh "docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER}"
+                                sh "docker tag ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:latest"
+                                sh "docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:latest"
                             }
-                            stage('Push Frontend') {
-                                steps {
-                                    sh "docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER}"
-                                    sh "docker tag ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER} ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:latest"
-                                    sh "docker push ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:latest"
-                                }
-                            }
-                        }
+                        )
                     }
                 }
             }
