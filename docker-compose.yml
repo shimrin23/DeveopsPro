@@ -24,12 +24,10 @@ services:
       - mongo
 
   frontend:
-
     image: shimrin223/salon-frontend:latest
     container_name: salon-frontend
     restart: always
-    env_file:
-      - ./frontend/.env
+    # env_file removed - React apps bake REACT_APP_* at build time, not runtime
     ports:
       - "3000:3000"
     depends_on:
