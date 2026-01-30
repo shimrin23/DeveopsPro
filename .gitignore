@@ -23,8 +23,8 @@ jspm_packages/
 
 .yarn-integrity
 
-.env
-.env.test
+# .env
+# .env.test
 
 build/Release
 
