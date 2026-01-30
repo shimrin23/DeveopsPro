@@ -30,7 +30,7 @@ pipeline {
                     steps {
                         script {
                             echo '--- Building Frontend ---'
-                            docker.build("${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER}", "./frontend")
+                            sh "docker build --no-cache -t ${DOCKER_REGISTRY}/${FRONTEND_IMAGE}:${BUILD_NUMBER} ./frontend"
                         }
                     }
                 }
