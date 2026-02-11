@@ -69,12 +69,12 @@ terraform output
 After `terraform apply`, you'll get:
 
 ```
-app_server_public_ip = "13.233.207.130"
+app_server_public_ip = "54.226.123.72"
 jenkins_server_public_ip = "13.234.XXX.XXX"
 jenkins_url = "http://13.234.XXX.XXX:8080"
-frontend_url = "http://13.233.207.130:3000"
-backend_url = "http://13.233.207.130:5001"
-ssh_command_app = "ssh -i salon-key.pem ubuntu@13.233.207.130"
+frontend_url = "http://54.226.123.72:3000"
+backend_url = "http://54.226.123.72:5001"
+ssh_command_app = "ssh -i salon-key.pem ubuntu@54.226.123.72"
 ssh_command_jenkins = "ssh -i salon-key.pem ubuntu@13.234.XXX.XXX"
 ```
 
