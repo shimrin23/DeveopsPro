@@ -57,7 +57,7 @@ resource "aws_security_group" "salon_booking_sg" {
 resource "aws_instance" "all_in_one_server" {
   ami           = "ami-0e2c8ccd9e0369337" # Ubuntu 24.04 AMI (Check yours!)
   instance_type = "t2.medium"
-  key_name      = "your-key-name" # Replace with your .pem key name
+  key_name      = "salon-key2" 
   vpc_security_group_ids = [aws_security_group.salon_booking_sg.id]
 
   root_block_device {
