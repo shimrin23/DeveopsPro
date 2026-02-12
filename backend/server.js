@@ -12,7 +12,7 @@ const port = process.env.PORT || 5001;
 
 // Allow requests from your frontend IP
 app.use(cors({
-  origin: 'http://54.227.156.82', // No trailing slash!
+  origin: 'http://54.227.156.82', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
