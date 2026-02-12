@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
   res.send("✅ Backend server is running on port 5001");
 });
 
-// Test endpoint that doesn't require auth
+
 app.get("/api/test", (req, res) => {
   res.json({
     status: "ok",
