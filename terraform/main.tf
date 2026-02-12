@@ -32,7 +32,7 @@ resource "aws_security_group" "simple_sg" {
 resource "aws_instance" "my_server" {
   ami           = "ami-080e1f13689e07408" 
   
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
 
   key_name      = "simple-key"
 
