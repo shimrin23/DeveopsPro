@@ -38,7 +38,7 @@ function App() {
             }
           />
 
-          {/* Smart Home Route - Shows admin dashboard for admins, regular home for users */}
+          {}
           <Route path="/" element={<SmartHome />} />
           
           {/* Unprotected Routes */}

@@ -7,7 +7,7 @@ const Hero = () => {
     <section className="hero">
       <div className="hero-content">
         <h1>
-          Elegance Meets <br />
+          Elegance Meetsup <br />
           <span style={{ color: 'var(--accent-color)' }}>Excellence</span>
         </h1>
         <p>
