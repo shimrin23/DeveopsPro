@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/bookappointment.css";
-import "../styles/register.css"; // Add this import to get the missing styles
+import "../styles/register.css"; 
 import axios from "axios";
 import toast from "react-hot-toast";
 import { IoMdClose } from "react-icons/io";
