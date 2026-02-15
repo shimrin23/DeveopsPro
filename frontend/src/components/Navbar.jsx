@@ -34,7 +34,7 @@ const Navbar = () => {
     <header>
       <nav className={iconActive ? "nav-active" : ""}>
         <h2 className="nav-logo">
-          <NavLink to={"/"}>Shimrin</NavLink>
+          <NavLink to={"/"}>SloonBooker</NavLink>
         </h2>
         <ul className="nav-links">
           <li>
